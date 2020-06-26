@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		1558FA5224A65E6700131BFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1558FA5124A65E6700131BFE /* AppDelegate.swift */; };
 		1558FA5424A65E6700131BFE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1558FA5324A65E6700131BFE /* ContentView.swift */; };
-		1558FA5624A65E6700131BFE /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = 1558FA5524A65E6700131BFE /* Experience.rcproject */; };
 		1558FA5824A65E6900131BFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1558FA5724A65E6900131BFE /* Assets.xcassets */; };
 		1558FA5B24A65E6900131BFE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1558FA5A24A65E6900131BFE /* Preview Assets.xcassets */; };
 		1558FA5E24A65E6900131BFE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1558FA5C24A65E6900131BFE /* LaunchScreen.storyboard */; };
 		1558FA6924A65E6900131BFE /* FunFurnitureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1558FA6824A65E6900131BFE /* FunFurnitureTests.swift */; };
 		1558FA7424A65E6900131BFE /* FunFurnitureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1558FA7324A65E6900131BFE /* FunFurnitureUITests.swift */; };
+		1558FA8524A6674F00131BFE /* chair_swan.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 1558FA8224A6674E00131BFE /* chair_swan.usdz */; };
+		1558FA8624A6674F00131BFE /* gramophone.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 1558FA8324A6674F00131BFE /* gramophone.usdz */; };
+		1558FA8724A6674F00131BFE /* toy_biplane.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 1558FA8424A6674F00131BFE /* toy_biplane.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +40,6 @@
 		1558FA4E24A65E6700131BFE /* FunFurniture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunFurniture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1558FA5124A65E6700131BFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1558FA5324A65E6700131BFE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		1558FA5524A65E6700131BFE /* Experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Experience.rcproject; sourceTree = "<group>"; };
 		1558FA5724A65E6900131BFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1558FA5A24A65E6900131BFE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1558FA5D24A65E6900131BFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +50,9 @@
 		1558FA6F24A65E6900131BFE /* FunFurnitureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunFurnitureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1558FA7324A65E6900131BFE /* FunFurnitureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunFurnitureUITests.swift; sourceTree = "<group>"; };
 		1558FA7524A65E6900131BFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1558FA8224A6674E00131BFE /* chair_swan.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = chair_swan.usdz; sourceTree = "<group>"; };
+		1558FA8324A6674F00131BFE /* gramophone.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = gramophone.usdz; sourceTree = "<group>"; };
+		1558FA8424A6674F00131BFE /* toy_biplane.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_biplane.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +105,7 @@
 			children = (
 				1558FA5124A65E6700131BFE /* AppDelegate.swift */,
 				1558FA5324A65E6700131BFE /* ContentView.swift */,
-				1558FA5524A65E6700131BFE /* Experience.rcproject */,
+				1558FA8124A666CF00131BFE /* Models */,
 				1558FA5724A65E6900131BFE /* Assets.xcassets */,
 				1558FA5C24A65E6900131BFE /* LaunchScreen.storyboard */,
 				1558FA5F24A65E6900131BFE /* Info.plist */,
@@ -134,6 +138,16 @@
 				1558FA7524A65E6900131BFE /* Info.plist */,
 			);
 			path = FunFurnitureUITests;
+			sourceTree = "<group>";
+		};
+		1558FA8124A666CF00131BFE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1558FA8224A6674E00131BFE /* chair_swan.usdz */,
+				1558FA8324A6674F00131BFE /* gramophone.usdz */,
+				1558FA8424A6674F00131BFE /* toy_biplane.usdz */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,9 +254,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1558FA8724A6674F00131BFE /* toy_biplane.usdz in Resources */,
 				1558FA5E24A65E6900131BFE /* LaunchScreen.storyboard in Resources */,
 				1558FA5B24A65E6900131BFE /* Preview Assets.xcassets in Resources */,
+				1558FA8524A6674F00131BFE /* chair_swan.usdz in Resources */,
 				1558FA5824A65E6900131BFE /* Assets.xcassets in Resources */,
+				1558FA8624A6674F00131BFE /* gramophone.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +286,6 @@
 			files = (
 				1558FA5424A65E6700131BFE /* ContentView.swift in Sources */,
 				1558FA5224A65E6700131BFE /* AppDelegate.swift in Sources */,
-				1558FA5624A65E6700131BFE /* Experience.rcproject in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
