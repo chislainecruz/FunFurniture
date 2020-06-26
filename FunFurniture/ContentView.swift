@@ -9,6 +9,7 @@
 import SwiftUI
 import RealityKit
 import ARKit
+import FocusEntity
 
 struct ContentView : View {
     @State private var isPlacementEnabled = false
@@ -48,16 +49,8 @@ struct ARViewContainer: UIViewRepresentable {
     @Binding var modelConfirmedForPlacement : Model?
     
     func makeUIView(context: Context) -> ARView {
-        let arView = ARView(frame: .zero)
-        let config = ARWorldTrackingConfiguration()
-        config.planeDetection = [.horizontal, .vertical]
-        config.environmentTexturing = .automatic
-        
-        if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh){
-            config.sceneReconstruction = .mesh
-        }
-        arView.session.run(config)
-        
+        //this is where we use our custom ARView defined below
+        let arView = CustomARView(frame: .zero)
         return arView
     }
     
@@ -76,15 +69,49 @@ struct ARViewContainer: UIViewRepresentable {
                 print("DEBUG: Unable to load ModelEntity for \(model.modelName)")
             }
             
-            
-            
-            
             DispatchQueue.main.async {
                 self.modelConfirmedForPlacement = nil
             }
         }
     }
     
+}
+
+class CustomARView: ARView {
+    let focusSquare = FESquare()
+    required init(frame frameRect: CGRect) {
+        super.init(frame: frameRect)
+        
+        focusSquare.viewDelegate = self
+        focusSquare.delegate = self
+        focusSquare.setAutoUpdate(to: true)
+        
+        self.setupARView()
+    }
+    
+    @objc required dynamic init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupARView(){
+        let config = ARWorldTrackingConfiguration()
+               config.planeDetection = [.horizontal, .vertical]
+               config.environmentTexturing = .automatic
+               
+               if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh){
+                   config.sceneReconstruction = .mesh
+               }
+               self.session.run(config)
+    }
+}
+
+extension CustomARView: FEDelegate {
+    func toTrackingState(){
+        print("Tracking")
+    }
+    func toInitializingState() {
+        print("Initializing")
+    }
 }
 
 struct ModelPickerView: View {
@@ -152,7 +179,6 @@ struct PlacementButtonsView: View {
                     .background(Color.white.opacity(0.75))
                 .cornerRadius(30)
                 .padding(20)
-                    
             }
         }
     }

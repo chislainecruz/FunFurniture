@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,7 @@
 		1558FA8624A6674F00131BFE /* gramophone.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 1558FA8324A6674F00131BFE /* gramophone.usdz */; };
 		1558FA8724A6674F00131BFE /* toy_biplane.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 1558FA8424A6674F00131BFE /* toy_biplane.usdz */; };
 		155DA51224A6958300909A5B /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155DA51124A6958300909A5B /* Model.swift */; };
+		155DA51524A6A80C00909A5B /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = 155DA51424A6A80C00909A5B /* FocusEntity */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				155DA51524A6A80C00909A5B /* FocusEntity in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +171,9 @@
 			dependencies = (
 			);
 			name = FunFurniture;
+			packageProductDependencies = (
+				155DA51424A6A80C00909A5B /* FocusEntity */,
+			);
 			productName = FunFurniture;
 			productReference = 1558FA4E24A65E6700131BFE /* FunFurniture.app */;
 			productType = "com.apple.product-type.application";
@@ -241,6 +246,9 @@
 				Base,
 			);
 			mainGroup = 1558FA4524A65E6700131BFE;
+			packageReferences = (
+				155DA51324A6A80C00909A5B /* XCRemoteSwiftPackageReference "FocusEntity" */,
+			);
 			productRefGroup = 1558FA4F24A65E6700131BFE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -614,6 +622,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		155DA51324A6A80C00909A5B /* XCRemoteSwiftPackageReference "FocusEntity" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maxxfrazer/FocusEntity";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		155DA51424A6A80C00909A5B /* FocusEntity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 155DA51324A6A80C00909A5B /* XCRemoteSwiftPackageReference "FocusEntity" */;
+			productName = FocusEntity;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1558FA4624A65E6700131BFE /* Project object */;
 }
