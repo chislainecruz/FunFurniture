@@ -8,21 +8,23 @@
 
 import SwiftUI
 import RealityKit
+import ARKit
 
 struct ContentView : View {
     @State private var isPlacementEnabled = false
-    @State private var selectedModel : String?
-    @State private var modelConfirmedForPlacement : String?
+    @State private var selectedModel : Model?
+    @State private var modelConfirmedForPlacement : Model?
     // dynamically get file names
-    private var models: [String] = {
+    private var models: [Model] = {
         let fileManager = FileManager.default
         guard let path = Bundle.main.resourcePath, let files = try? fileManager.contentsOfDirectory(atPath: path) else {
             return []
         }
-        var availModels: [String] = []
+        var availModels: [Model] = []
         for fileName in files where fileName.hasSuffix("usdz"){
             let modelName = fileName.replacingOccurrences(of: ".usdz", with: "")
-            availModels.append(modelName)
+            let model = Model(modelName: modelName)
+            availModels.append(model)
         }
         return availModels
     }()
@@ -43,17 +45,40 @@ struct ContentView : View {
 }
 
 struct ARViewContainer: UIViewRepresentable {
-    @Binding var modelConfirmedForPlacement : String?
+    @Binding var modelConfirmedForPlacement : Model?
     
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
+        let config = ARWorldTrackingConfiguration()
+        config.planeDetection = [.horizontal, .vertical]
+        config.environmentTexturing = .automatic
+        
+        if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh){
+            config.sceneReconstruction = .mesh
+        }
+        arView.session.run(config)
+        
         return arView
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
         //make sure this is properly tested before production
-        if let modelName = self.modelConfirmedForPlacement{
-            print("debug: Adding model to scene - \(modelName)")
+        if let model = self.modelConfirmedForPlacement{
+            //making sure the model exists in the entity
+            if let modelEntity = model.modelEntity{
+                print("DEBUG: Adding model to the scene - \(model.modelName)")
+                
+                let anchorEntity = AnchorEntity(plane: .horizontal)
+                anchorEntity.addChild(modelEntity.clone(recursive: true)) //clone creates a cloen of the model. Better for memory and performance
+                uiView.scene.addAnchor(anchorEntity)
+                
+            } else {
+                print("DEBUG: Unable to load ModelEntity for \(model.modelName)")
+            }
+            
+            
+            
+            
             DispatchQueue.main.async {
                 self.modelConfirmedForPlacement = nil
             }
@@ -64,8 +89,8 @@ struct ARViewContainer: UIViewRepresentable {
 
 struct ModelPickerView: View {
     @Binding var isPlacementEnabled: Bool
-    @Binding var selectedModel: String?
-    var models: [String]
+    @Binding var selectedModel: Model?
+    var models: [Model]
     
     var body: some View {
             //scrollview showing each image
@@ -75,13 +100,13 @@ struct ModelPickerView: View {
                         //on tap
                         index in
                         Button(action: {
-                            print("DEBUG: Selected model with name: \(self.models[index])")
+                            print("DEBUG: Selected model with name: \(self.models[index].modelName)")
                             //if the user taps on thumbnail, the model is set
                             self.selectedModel = self.models[index]
                             self.isPlacementEnabled = true
                         }) {
                             //image settings
-                            Image(uiImage: UIImage(named: self.models[index])!)
+                            Image(uiImage: self.models[index].image)
                             .resizable()
                                 .frame(height: 80)
                                 .aspectRatio(1/1, contentMode: .fit)
@@ -98,8 +123,8 @@ struct ModelPickerView: View {
 
 struct PlacementButtonsView: View {
     @Binding var isPlacementEnabled: Bool
-    @Binding var selectedModel: String?
-    @Binding var modelConfirmedForPlacement: String?
+    @Binding var selectedModel: Model?
+    @Binding var modelConfirmedForPlacement: Model?
     var body: some View {
         HStack {
             //Cancel Button
