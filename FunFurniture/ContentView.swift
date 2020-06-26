@@ -10,6 +10,9 @@ import SwiftUI
 import RealityKit
 
 struct ContentView : View {
+    @State private var isPlacementEnabled = false
+    @State private var selectedModel : String?
+    @State private var modelConfirmedForPlacement : String?
     // dynamically get file names
     private var models: [String] = {
         let fileManager = FileManager.default
@@ -26,31 +29,42 @@ struct ContentView : View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            ARViewContainer()
-            //get models on the screen
-            ModelPickerView(models: self.models)
-            PlacementButtonsView()
+            ARViewContainer(modelConfirmedForPlacement: self.$modelConfirmedForPlacement)
             
-            
+            if self.isPlacementEnabled {
+                //get models on the screen
+                PlacementButtonsView(isPlacementEnabled: self.$isPlacementEnabled, selectedModel: self.$selectedModel, modelConfirmedForPlacement: self.$modelConfirmedForPlacement)
+            } else {
+                // pick models
+                ModelPickerView(isPlacementEnabled: self.$isPlacementEnabled, selectedModel: self.$selectedModel, models: self.models)
+            }
         }
     }
 }
 
 struct ARViewContainer: UIViewRepresentable {
+    @Binding var modelConfirmedForPlacement : String?
     
     func makeUIView(context: Context) -> ARView {
-        
         let arView = ARView(frame: .zero)
-        
         return arView
-        
     }
     
-    func updateUIView(_ uiView: ARView, context: Context) {}
+    func updateUIView(_ uiView: ARView, context: Context) {
+        //make sure this is properly tested before production
+        if let modelName = self.modelConfirmedForPlacement{
+            print("debug: Adding model to scene - \(modelName)")
+            DispatchQueue.main.async {
+                self.modelConfirmedForPlacement = nil
+            }
+        }
+    }
     
 }
 
 struct ModelPickerView: View {
+    @Binding var isPlacementEnabled: Bool
+    @Binding var selectedModel: String?
     var models: [String]
     
     var body: some View {
@@ -58,10 +72,13 @@ struct ModelPickerView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 30){
                     ForEach(0 ..< self.models.count){
-                        //on click
+                        //on tap
                         index in
                         Button(action: {
                             print("DEBUG: Selected model with name: \(self.models[index])")
+                            //if the user taps on thumbnail, the model is set
+                            self.selectedModel = self.models[index]
+                            self.isPlacementEnabled = true
                         }) {
                             //image settings
                             Image(uiImage: UIImage(named: self.models[index])!)
@@ -80,11 +97,15 @@ struct ModelPickerView: View {
 }
 
 struct PlacementButtonsView: View {
+    @Binding var isPlacementEnabled: Bool
+    @Binding var selectedModel: String?
+    @Binding var modelConfirmedForPlacement: String?
     var body: some View {
         HStack {
             //Cancel Button
             Button(action: {
                 print("Debug: Model placement cancel")
+                self.resetPlacementParameters()
             }) {
                 Image(systemName: "xmark")
                     .frame(width:60, height: 60)
@@ -97,6 +118,8 @@ struct PlacementButtonsView: View {
             //Confirm button
             Button(action: {
                 print("Debug: Model placement confirm")
+                self.modelConfirmedForPlacement = self.selectedModel
+                self.resetPlacementParameters()
             }) {
                 Image(systemName: "checkmark")
                     .frame(width:60, height: 60)
@@ -106,8 +129,11 @@ struct PlacementButtonsView: View {
                 .padding(20)
                     
             }
-            
         }
+    }
+    func resetPlacementParameters(){
+        self.isPlacementEnabled = false
+        self.selectedModel = nil
     }
 }
 
