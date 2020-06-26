@@ -29,6 +29,9 @@ struct ContentView : View {
             ARViewContainer()
             //get models on the screen
             ModelPickerView(models: self.models)
+            PlacementButtonsView()
+            
+            
         }
     }
 }
@@ -73,6 +76,38 @@ struct ModelPickerView: View {
             } //styling the scroll bar
         .padding(20)
             .background(Color.black.opacity(0.4))
+    }
+}
+
+struct PlacementButtonsView: View {
+    var body: some View {
+        HStack {
+            //Cancel Button
+            Button(action: {
+                print("Debug: Model placement cancel")
+            }) {
+                Image(systemName: "xmark")
+                    .frame(width:60, height: 60)
+                    .font(.title)
+                    .background(Color.white.opacity(0.75))
+                .cornerRadius(30)
+                .padding(20)
+                    
+            }
+            //Confirm button
+            Button(action: {
+                print("Debug: Model placement confirm")
+            }) {
+                Image(systemName: "checkmark")
+                    .frame(width:60, height: 60)
+                    .font(.title)
+                    .background(Color.white.opacity(0.75))
+                .cornerRadius(30)
+                .padding(20)
+                    
+            }
+            
+        }
     }
 }
 
