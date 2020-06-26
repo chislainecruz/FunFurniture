@@ -4,7 +4,7 @@
 //
 //  Created by Chislaine Cruz on 6/26/20.
 //  Copyright © 2020 Chislaine Cruz. All rights reserved.
-//
+//FunFurniture
 
 import SwiftUI
 import RealityKit
