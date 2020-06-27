@@ -15,8 +15,6 @@ struct ContentView : View {
     @State private var isPlacementEnabled = false
     @State private var selectedModel : Model?
     @State private var modelConfirmedForPlacement : Model?
-    @State private var isRemoveEnabled = false
-    @State private var modelConfirmedForRemoval: Model?
     // dynamically get file names
     private var models: [Model] = {
         let fileManager = FileManager.default
@@ -40,19 +38,12 @@ struct ContentView : View {
                 //get models on the screen
                 PlacementButtonsView(isPlacementEnabled: self.$isPlacementEnabled, selectedModel: self.$selectedModel, modelConfirmedForPlacement: self.$modelConfirmedForPlacement)
             } else {
-                if self.isRemoveEnabled {
-                    //remove button on screen
-//                    RemoveButtonView()
-                } else {
                 // pick models
                 ModelPickerView(isPlacementEnabled: self.$isPlacementEnabled, selectedModel: self.$selectedModel, models: self.models)
  
                 }
-            }
         }
     }
-    
-  
 }
 
 struct ARViewContainer: UIViewRepresentable {
@@ -61,7 +52,7 @@ struct ARViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         //this is where we use our custom ARView defined below
         let arView = CustomARView(frame: .zero)
-        
+        arView.enableObjectRemoval()
        
         return arView
     }
@@ -73,12 +64,12 @@ struct ARViewContainer: UIViewRepresentable {
             if let modelEntity = model.modelEntity{
                 print("DEBUG: Adding model to the scene - \(model.modelName)")
                 
-                let anchorEntity = AnchorEntity(plane: .any)
+                let anchorEntity = AnchorEntity(plane: .horizontal)
                 let clonedEntity = modelEntity.clone(recursive: true)
                 clonedEntity.setScale(SIMD3<Float>(0.01, 0.01, 0.01), relativeTo: anchorEntity)
                 clonedEntity.generateCollisionShapes(recursive: true)
                 uiView.installGestures([.rotation, .translation],for: clonedEntity)
-               
+               anchorEntity.name = model.modelName
                 anchorEntity.addChild(clonedEntity) //clone creates a clone of the model. Better for memory and performance
                 
                 uiView.scene.addAnchor(anchorEntity)
@@ -91,18 +82,13 @@ struct ARViewContainer: UIViewRepresentable {
                 self.modelConfirmedForPlacement = nil
             }
         }
-        //tapping on a model on the screen should pop up an x button that once pressed, removes it from the screen
-        //anchorEntity.removeChild(entity)
-        
-        
         
     }
-
-    
-    
+ 
 }
 
 class CustomARView: ARView {
+    
     let focusSquare = FESquare()
     required init(frame frameRect: CGRect) {
         super.init(frame: frameRect)
@@ -122,27 +108,34 @@ class CustomARView: ARView {
         let config = ARWorldTrackingConfiguration()
                config.planeDetection = [.horizontal, .vertical]
                config.environmentTexturing = .automatic
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        self.addGestureRecognizer(tapGestureRecognizer)
                
                if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh){
                    config.sceneReconstruction = .mesh
                }
                self.session.run(config)
     }
+}
+
+extension CustomARView {
+    //removes an item by long pressing it
+    func enableObjectRemoval(){
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(recognizer:)))
+        self.addGestureRecognizer(longPressGestureRecognizer)
+    }
     
     @objc
-    func handleTap(sender: UIGestureRecognizer){
-        let tappedView = sender.view as! ARView
-        let touchedLocation = sender.location(in: tappedView)
-        let hitTest = tappedView.hitTest(touchedLocation)
-        if !hitTest.isEmpty {
-            let result = hitTest.first!
-            print("Tapped on \(result)")
+    func handleLongPress(recognizer: UILongPressGestureRecognizer){
+        let location = recognizer.location(in: self)
+        if let entity = self.entity(at: location){
+            if let anchorEntity = entity.anchor{
+                anchorEntity.removeFromParent()
+                print("Removed model named \(anchorEntity.name)")
+            }
+               
         }
     }
 }
+
 
 extension CustomARView: FEDelegate {
     func toTrackingState(){
@@ -187,23 +180,6 @@ struct ModelPickerView: View {
     }
 }
 
-//MARK: testing this
-//struct RemoveButtonView: View {
-//    @Binding var isRemoveEnabled: Bool
-//    @Binding var modelConfirmedForRemoval: Model?
-//    //@Binding var selectedModel
-//    var body: some View {
-//        HStack {
-//            //remove model button
-//            Button(action: {
-//                print("Debug: Removing model from screen")
-//                //self.modelConfirmedForRemoval = self.
-//                self.isRemoveEnabled = false
-//
-//            })
-//        }
-//    }
-//}
 
 struct PlacementButtonsView: View {
     @Binding var isPlacementEnabled: Bool
