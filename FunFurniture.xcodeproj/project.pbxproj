@@ -19,6 +19,7 @@
 		1558FA8724A6674F00131BFE /* toy_biplane.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 1558FA8424A6674F00131BFE /* toy_biplane.usdz */; };
 		155DA51224A6958300909A5B /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155DA51124A6958300909A5B /* Model.swift */; };
 		155DA51524A6A80C00909A5B /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = 155DA51424A6A80C00909A5B /* FocusEntity */; };
+		155DA51724A6B06C00909A5B /* simple_chair.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 155DA51624A6B06C00909A5B /* simple_chair.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		1558FA8324A6674F00131BFE /* gramophone.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = gramophone.usdz; sourceTree = "<group>"; };
 		1558FA8424A6674F00131BFE /* toy_biplane.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_biplane.usdz; sourceTree = "<group>"; };
 		155DA51124A6958300909A5B /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		155DA51624A6B06C00909A5B /* simple_chair.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = simple_chair.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				1558FA8224A6674E00131BFE /* chair_swan.usdz */,
+				155DA51624A6B06C00909A5B /* simple_chair.usdz */,
 				1558FA8324A6674F00131BFE /* gramophone.usdz */,
 				1558FA8424A6674F00131BFE /* toy_biplane.usdz */,
 			);
@@ -269,6 +272,7 @@
 				1558FA5E24A65E6900131BFE /* LaunchScreen.storyboard in Resources */,
 				1558FA5B24A65E6900131BFE /* Preview Assets.xcassets in Resources */,
 				1558FA8524A6674F00131BFE /* chair_swan.usdz in Resources */,
+				155DA51724A6B06C00909A5B /* simple_chair.usdz in Resources */,
 				1558FA5824A65E6900131BFE /* Assets.xcassets in Resources */,
 				1558FA8624A6674F00131BFE /* gramophone.usdz in Resources */,
 			);

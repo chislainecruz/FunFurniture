@@ -15,6 +15,8 @@ struct ContentView : View {
     @State private var isPlacementEnabled = false
     @State private var selectedModel : Model?
     @State private var modelConfirmedForPlacement : Model?
+    @State private var isRemoveEnabled = false
+    @State private var modelConfirmedForRemoval: Model?
     // dynamically get file names
     private var models: [Model] = {
         let fileManager = FileManager.default
@@ -40,9 +42,13 @@ struct ContentView : View {
             } else {
                 // pick models
                 ModelPickerView(isPlacementEnabled: self.$isPlacementEnabled, selectedModel: self.$selectedModel, models: self.models)
+                if self.isRemoveEnabled {
+                    //remove button on screen
+                }
             }
         }
     }
+  
 }
 
 struct ARViewContainer: UIViewRepresentable {
@@ -51,6 +57,7 @@ struct ARViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         //this is where we use our custom ARView defined below
         let arView = CustomARView(frame: .zero)
+       
         return arView
     }
     
@@ -61,8 +68,14 @@ struct ARViewContainer: UIViewRepresentable {
             if let modelEntity = model.modelEntity{
                 print("DEBUG: Adding model to the scene - \(model.modelName)")
                 
-                let anchorEntity = AnchorEntity(plane: .horizontal)
-                anchorEntity.addChild(modelEntity.clone(recursive: true)) //clone creates a cloen of the model. Better for memory and performance
+                let anchorEntity = AnchorEntity(plane: .any)
+                let clonedEntity = modelEntity.clone(recursive: true)
+                clonedEntity.setScale(SIMD3<Float>(0.01, 0.01, 0.01), relativeTo: anchorEntity)
+                clonedEntity.generateCollisionShapes(recursive: true)
+                uiView.installGestures([.rotation, .translation],for: clonedEntity)
+               
+                anchorEntity.addChild(clonedEntity) //clone creates a clone of the model. Better for memory and performance
+                
                 uiView.scene.addAnchor(anchorEntity)
                 
             } else {
@@ -73,7 +86,14 @@ struct ARViewContainer: UIViewRepresentable {
                 self.modelConfirmedForPlacement = nil
             }
         }
+        //tapping on a model on the screen should pop up an x button that once pressed, removes it from the screen
+        //anchorEntity.removeChild(entity)
+        
+        
+        
     }
+    
+    
     
 }
 
@@ -147,6 +167,23 @@ struct ModelPickerView: View {
             .background(Color.black.opacity(0.4))
     }
 }
+
+//struct RemoveButtonView: View {
+//    @Binding var isRemoveEnabled: Bool
+//    @Binding var modelConfirmedForRemoval: Model?
+//    @Binding var selectedModel
+//    var body: some View {
+//        HStack {
+//            //remove model button
+//            Button(action: {
+//                print("Debug: Removing model from screen")
+//                self.modelConfirmedForRemoval = self.
+//                self.isRemoveEnabled = false
+//
+//            })
+//        }
+//    }
+//}
 
 struct PlacementButtonsView: View {
     @Binding var isPlacementEnabled: Bool
