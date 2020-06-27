@@ -40,14 +40,18 @@ struct ContentView : View {
                 //get models on the screen
                 PlacementButtonsView(isPlacementEnabled: self.$isPlacementEnabled, selectedModel: self.$selectedModel, modelConfirmedForPlacement: self.$modelConfirmedForPlacement)
             } else {
-                // pick models
-                ModelPickerView(isPlacementEnabled: self.$isPlacementEnabled, selectedModel: self.$selectedModel, models: self.models)
                 if self.isRemoveEnabled {
                     //remove button on screen
+//                    RemoveButtonView()
+                } else {
+                // pick models
+                ModelPickerView(isPlacementEnabled: self.$isPlacementEnabled, selectedModel: self.$selectedModel, models: self.models)
+ 
                 }
             }
         }
     }
+    
   
 }
 
@@ -57,6 +61,7 @@ struct ARViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         //this is where we use our custom ARView defined below
         let arView = CustomARView(frame: .zero)
+        
        
         return arView
     }
@@ -92,7 +97,7 @@ struct ARViewContainer: UIViewRepresentable {
         
         
     }
-    
+
     
     
 }
@@ -117,11 +122,25 @@ class CustomARView: ARView {
         let config = ARWorldTrackingConfiguration()
                config.planeDetection = [.horizontal, .vertical]
                config.environmentTexturing = .automatic
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        self.addGestureRecognizer(tapGestureRecognizer)
                
                if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh){
                    config.sceneReconstruction = .mesh
                }
                self.session.run(config)
+    }
+    
+    @objc
+    func handleTap(sender: UIGestureRecognizer){
+        let tappedView = sender.view as! ARView
+        let touchedLocation = sender.location(in: tappedView)
+        let hitTest = tappedView.hitTest(touchedLocation)
+        if !hitTest.isEmpty {
+            let result = hitTest.first!
+            print("Tapped on \(result)")
+        }
     }
 }
 
@@ -168,16 +187,17 @@ struct ModelPickerView: View {
     }
 }
 
+//MARK: testing this
 //struct RemoveButtonView: View {
 //    @Binding var isRemoveEnabled: Bool
 //    @Binding var modelConfirmedForRemoval: Model?
-//    @Binding var selectedModel
+//    //@Binding var selectedModel
 //    var body: some View {
 //        HStack {
 //            //remove model button
 //            Button(action: {
 //                print("Debug: Removing model from screen")
-//                self.modelConfirmedForRemoval = self.
+//                //self.modelConfirmedForRemoval = self.
 //                self.isRemoveEnabled = false
 //
 //            })
