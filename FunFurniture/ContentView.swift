@@ -40,9 +40,11 @@ struct ContentView : View {
             } else {
                 // pick models
                 ModelPickerView(isPlacementEnabled: self.$isPlacementEnabled, selectedModel: self.$selectedModel, models: self.models)
-            }
+ 
+                }
         }
     }
+    
 }
 
 struct ARViewContainer: UIViewRepresentable {
@@ -51,6 +53,8 @@ struct ARViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         //this is where we use our custom ARView defined below
         let arView = CustomARView(frame: .zero)
+        
+       
         return arView
     }
     
@@ -62,8 +66,20 @@ struct ARViewContainer: UIViewRepresentable {
                 print("DEBUG: Adding model to the scene - \(model.modelName)")
                 
                 let anchorEntity = AnchorEntity(plane: .horizontal)
-                anchorEntity.addChild(modelEntity.clone(recursive: true)) //clone creates a cloen of the model. Better for memory and performance
+                let clonedEntity = modelEntity.clone(recursive: true)
+                clonedEntity.setScale(SIMD3<Float>(0.01, 0.01, 0.01), relativeTo: anchorEntity)
+                clonedEntity.generateCollisionShapes(recursive: true)
+                uiView.installGestures([.rotation, .translation],for: clonedEntity)
+                uiView.enableObjectRemoval()
+                
+               anchorEntity.name = model.modelName
+                
+                
+               
+                anchorEntity.addChild(clonedEntity) //clone creates a clone of the model. Better for memory and performance
+               
                 uiView.scene.addAnchor(anchorEntity)
+                
                 
             } else {
                 print("DEBUG: Unable to load ModelEntity for \(model.modelName)")
@@ -71,13 +87,17 @@ struct ARViewContainer: UIViewRepresentable {
             
             DispatchQueue.main.async {
                 self.modelConfirmedForPlacement = nil
+                
             }
+            
         }
+        
     }
-    
+ 
 }
 
 class CustomARView: ARView {
+    
     let focusSquare = FESquare()
     required init(frame frameRect: CGRect) {
         super.init(frame: frameRect)
@@ -101,9 +121,36 @@ class CustomARView: ARView {
                if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh){
                    config.sceneReconstruction = .mesh
                }
+        
                self.session.run(config)
     }
+    
+   
 }
+
+extension ARView {
+    //removes an item by long pressing it
+    
+    
+    func enableObjectRemoval(){
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(recognizer:)))
+        self.addGestureRecognizer(longPressGestureRecognizer)
+    }
+    
+    @objc
+    func handleLongPress(recognizer: UILongPressGestureRecognizer){
+        let location = recognizer.location(in: self)
+        if let entity = self.entity(at: location){
+            if let anchorEntity = entity.anchor{
+                anchorEntity.removeFromParent()
+                print("Removed model named \(anchorEntity.name)")
+            }
+
+        }
+    }
+}
+
+
 
 extension CustomARView: FEDelegate {
     func toTrackingState(){
@@ -147,6 +194,8 @@ struct ModelPickerView: View {
             .background(Color.black.opacity(0.4))
     }
 }
+
+
 
 struct PlacementButtonsView: View {
     @Binding var isPlacementEnabled: Bool

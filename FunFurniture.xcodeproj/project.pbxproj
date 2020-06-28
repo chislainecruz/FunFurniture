@@ -19,6 +19,11 @@
 		1558FA8724A6674F00131BFE /* toy_biplane.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 1558FA8424A6674F00131BFE /* toy_biplane.usdz */; };
 		155DA51224A6958300909A5B /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155DA51124A6958300909A5B /* Model.swift */; };
 		155DA51524A6A80C00909A5B /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = 155DA51424A6A80C00909A5B /* FocusEntity */; };
+		15D58AA624A8442400EE8811 /* teapot.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 15D58AA524A8442400EE8811 /* teapot.usdz */; };
+		15D58AA824A8442B00EE8811 /* toy_drummer.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 15D58AA724A8442B00EE8811 /* toy_drummer.usdz */; };
+		15D58AAA24A8443200EE8811 /* toy_robot_vintage.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 15D58AA924A8443200EE8811 /* toy_robot_vintage.usdz */; };
+		15D58AAC24A8444A00EE8811 /* fender_stratocaster.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 15D58AAB24A8444A00EE8811 /* fender_stratocaster.usdz */; };
+		15D58AAE24A8445900EE8811 /* wheelbarrow.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 15D58AAD24A8445900EE8811 /* wheelbarrow.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +61,11 @@
 		1558FA8324A6674F00131BFE /* gramophone.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = gramophone.usdz; sourceTree = "<group>"; };
 		1558FA8424A6674F00131BFE /* toy_biplane.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_biplane.usdz; sourceTree = "<group>"; };
 		155DA51124A6958300909A5B /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		15D58AA524A8442400EE8811 /* teapot.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = teapot.usdz; sourceTree = "<group>"; };
+		15D58AA724A8442B00EE8811 /* toy_drummer.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_drummer.usdz; sourceTree = "<group>"; };
+		15D58AA924A8443200EE8811 /* toy_robot_vintage.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_robot_vintage.usdz; sourceTree = "<group>"; };
+		15D58AAB24A8444A00EE8811 /* fender_stratocaster.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = fender_stratocaster.usdz; sourceTree = "<group>"; };
+		15D58AAD24A8445900EE8811 /* wheelbarrow.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = wheelbarrow.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +159,11 @@
 			isa = PBXGroup;
 			children = (
 				1558FA8224A6674E00131BFE /* chair_swan.usdz */,
+				15D58AA524A8442400EE8811 /* teapot.usdz */,
+				15D58AA724A8442B00EE8811 /* toy_drummer.usdz */,
+				15D58AAB24A8444A00EE8811 /* fender_stratocaster.usdz */,
+				15D58AAD24A8445900EE8811 /* wheelbarrow.usdz */,
+				15D58AA924A8443200EE8811 /* toy_robot_vintage.usdz */,
 				1558FA8324A6674F00131BFE /* gramophone.usdz */,
 				1558FA8424A6674F00131BFE /* toy_biplane.usdz */,
 			);
@@ -265,9 +280,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15D58AAE24A8445900EE8811 /* wheelbarrow.usdz in Resources */,
 				1558FA8724A6674F00131BFE /* toy_biplane.usdz in Resources */,
 				1558FA5E24A65E6900131BFE /* LaunchScreen.storyboard in Resources */,
+				15D58AAA24A8443200EE8811 /* toy_robot_vintage.usdz in Resources */,
 				1558FA5B24A65E6900131BFE /* Preview Assets.xcassets in Resources */,
+				15D58AA824A8442B00EE8811 /* toy_drummer.usdz in Resources */,
+				15D58AA624A8442400EE8811 /* teapot.usdz in Resources */,
+				15D58AAC24A8444A00EE8811 /* fender_stratocaster.usdz in Resources */,
 				1558FA8524A6674F00131BFE /* chair_swan.usdz in Resources */,
 				1558FA5824A65E6900131BFE /* Assets.xcassets in Resources */,
 				1558FA8624A6674F00131BFE /* gramophone.usdz in Resources */,
