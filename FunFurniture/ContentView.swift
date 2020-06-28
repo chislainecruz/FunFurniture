@@ -44,6 +44,7 @@ struct ContentView : View {
                 }
         }
     }
+    
 }
 
 struct ARViewContainer: UIViewRepresentable {
@@ -52,7 +53,7 @@ struct ARViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         //this is where we use our custom ARView defined below
         let arView = CustomARView(frame: .zero)
-        arView.enableObjectRemoval()
+        
        
         return arView
     }
@@ -69,10 +70,16 @@ struct ARViewContainer: UIViewRepresentable {
                 clonedEntity.setScale(SIMD3<Float>(0.01, 0.01, 0.01), relativeTo: anchorEntity)
                 clonedEntity.generateCollisionShapes(recursive: true)
                 uiView.installGestures([.rotation, .translation],for: clonedEntity)
-               anchorEntity.name = model.modelName
-                anchorEntity.addChild(clonedEntity) //clone creates a clone of the model. Better for memory and performance
+                uiView.enableObjectRemoval()
                 
+               anchorEntity.name = model.modelName
+                
+                
+               
+                anchorEntity.addChild(clonedEntity) //clone creates a clone of the model. Better for memory and performance
+               
                 uiView.scene.addAnchor(anchorEntity)
+                
                 
             } else {
                 print("DEBUG: Unable to load ModelEntity for \(model.modelName)")
@@ -80,7 +87,9 @@ struct ARViewContainer: UIViewRepresentable {
             
             DispatchQueue.main.async {
                 self.modelConfirmedForPlacement = nil
+                
             }
+            
         }
         
     }
@@ -112,12 +121,17 @@ class CustomARView: ARView {
                if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh){
                    config.sceneReconstruction = .mesh
                }
+        
                self.session.run(config)
     }
+    
+   
 }
 
-extension CustomARView {
+extension ARView {
     //removes an item by long pressing it
+    
+    
     func enableObjectRemoval(){
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(recognizer:)))
         self.addGestureRecognizer(longPressGestureRecognizer)
@@ -131,10 +145,11 @@ extension CustomARView {
                 anchorEntity.removeFromParent()
                 print("Removed model named \(anchorEntity.name)")
             }
-               
+
         }
     }
 }
+
 
 
 extension CustomARView: FEDelegate {
@@ -179,6 +194,7 @@ struct ModelPickerView: View {
             .background(Color.black.opacity(0.4))
     }
 }
+
 
 
 struct PlacementButtonsView: View {
